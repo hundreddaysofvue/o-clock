@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style type="text/css">
+    body {
+      background-color: #2BA5BB;
+    }
+    h2 {
+      font-size: 4rem;
+    }
+    h3 {
+      font-size: 2.5rem;
+    }
+    .content {
+      margin-top: 4rem;
+      color: white;
+      text-align: center;
+    }
+    .icono-clock {
+      color: white;
+      width: 2rem;
+      height: 2rem;
+    }
+    #typewriter {
+      font-size: 1.5rem;
+    }
+  </style>
+  <title>O'Clock | By Ch1nux Par1bus</title>
+</head>
+<body>
+  <div id="app">
+    <div class="content">
+      <icono-clock></icono-clock>
+      <app-title></app-title>
+      <o-clock></o-clock>
+      <type-writer></type-writer>
+    </div>
+  </div>
+  <script src="https://unpkg.com/vue"></script>
+  <script src="typewriter.min.js"></script>
+  <script>
+// Component Objects declaration
+    var IconoClock = {
+      template: '<img src="clock.svg" :width="width" :height="height"/>',
+      data: function () {
+        return {
+          width: 120,
+          height: 120
+        }
+      }
+    },
+    AppTitle = {
+      template: '<h2>{{ msg }}</h2>',
+      data: function () {
+        return {
+          msg: 'O\' Clock'
+        }
+      }
+    },
+    OClock = {
+      template: '<h3>{{ time }}</h3>',
+      data: function () {
+        return {
+          time: 'The clock hasn\'t loaded yet. Please, be patient.'
+        }
+      },
+      methods: {
+        // Thanks MDN! :-*
+        clockFormatter: function () {
+          let time = new Date(),
+              hour = time.getHours(),
+              minute = time.getMinutes(),
+              second = time.getSeconds(),
+              timeStr = '' + ((hour > 12) ? hour - 12 : hour)
+          if (hour == 0) {
+            timeStr = '12'
+          }
+          timeStr += ((minute < 10) ? ':0' : ':') + minute
+          timeStr += ((second < 10) ? ':0' : ':') + second
+          timeStr += (hour >= 12) ? ' P.M' : ' A.M'
+          return timeStr
+        }
+      },
+      created: function () {
+        vm = this // A simple but unbreakable spell. Spoiler: changes the scope ;-)
+        setInterval(function () {
+          vm.time = vm.clockFormatter()
+        }, 1000)
+      }
+    },
+    TypeWriter = {
+      template: '<div id="typewriter"></div>',
+      data: function () {
+        return {
+          messages: [
+            'Just in time... Always!',
+            'Just read the clock... Nothing else',
+            'TL;DR... if you don\'t have time',
+            'Oh C\'mon, don\'t waste my time!',
+            'God\'s time is perfect!',
+            'But now it\'s time to say goodbye, time flows like tears...',
+            'Perfect timing like a swiss clock ;)',
+            'Three Sweden swingers switch their swiss swatches for watch time swift...',
+            'It\'s Tea Time, muthafucka...',
+            'Here goes the time for Lorem Ipsum',
+            'I... I don\'t have time for this...',
+            'I don\'t wrote this in \"Times New Roman\" letter',
+            'Did you notice that all phrases have a time on it? Even this! LOL',
+            'There is no spoon...  I mean... time...',
+            'Still there? Just keep focus with your time!'
+          ]
+        }
+      },
+      mounted: function () {
+        typewriter.Typewriter.cycle('typewriter', this.messages)
+      }
+    }
+
+// Component Objects registration
+    Vue.component('icono-clock', IconoClock)
+    Vue.component('app-title', AppTitle)
+    Vue.component('o-clock', OClock)
+    Vue.component('type-writer', TypeWriter)
+
+// New Vue instance
+    new Vue({
+      el: '#app'
+    })
+  </script>
+</body>
+</html>
